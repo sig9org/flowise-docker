@@ -35,8 +35,8 @@ RUN pnpm config set allow-scripts true && \
     pnpm install && \
     pnpm build
 
-# Remove development dependencies to reduce image size
-RUN pnpm prune --prod
+# Add "--ignore-scripts" to prevent husky from triggering after it has been pruned
+RUN pnpm prune --prod --ignore-scripts
 
 
 # ===================================================
