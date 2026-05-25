@@ -22,13 +22,15 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
+# Set CI environment variable to true to prevent pnpm from aborting on prune without TTY
+ENV CI=true
+
 WORKDIR /usr/src/flowise
 
 # Clone the official Flowise repository at the specific version tag (flowise@3.1.2)
 RUN git clone --depth 1 --branch flowise@3.1.2 https://github.com/FlowiseAI/Flowise.git .
 
 # Allow third-party build scripts so essential packages (like canvas, sharp) can compile
-# Use "pnpm build" instead of the deprecated "pnpm build:docker"
 RUN pnpm config set allow-scripts true && \
     pnpm install && \
     pnpm build
