@@ -4,6 +4,7 @@ version: "3"
 
 vars:
   NAME: "flowise"
+  VERSION: "flowise@3.1.2"
 
 tasks:
   default:
@@ -14,7 +15,8 @@ tasks:
     aliases: [b]
     desc: Build and export to the registry
     cmds:
-      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:latest .
+      - time docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:latest .
+      - time docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:{{.VERSION}} .
 
   list-tags:
     aliases: [l]

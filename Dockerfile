@@ -1,7 +1,7 @@
 # ===================================================
 # Stage 1: Build Stage
 # ===================================================
-FROM node:22-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Install system dependencies, build tools, and git for cloning the repository
 RUN apk update && \
@@ -38,7 +38,7 @@ RUN pnpm prune --prod
 # ===================================================
 # Stage 2: Runner Stage (Final Image)
 # ===================================================
-FROM node:22-alpine AS runner
+FROM node:20-alpine AS runner
 
 # Install minimal runtime dependencies needed for execution (git is not needed here)
 RUN apk update && \
