@@ -14,13 +14,13 @@ tasks:
     aliases: [b]
     desc: Build and export to the registry
     cmds:
-      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.PROJECT_NAME}}:latest .
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:latest .
 
   list-tags:
     aliases: [l]
     desc: List the tags registered on Docker Hub
     cmds:
-      - skopeo list-tags docker://docker.io/sig9/{{.PROJECT_NAME}} | jq -r '.Tags[]' | sort -V
+      - skopeo list-tags docker://docker.io/sig9/{{.NAME}} | jq -r '.Tags[]' | sort -V
 
   # Common Docker Operations
 
@@ -45,9 +45,9 @@ tasks:
       - docker compose ps -a
 
   shell:
-    desc: docker exec -it {{.PROJECT_NAME}} sh
+    desc: docker exec -it {{.NAME}} sh
     cmds:
-      - docker exec -it {{.PROJECT_NAME}} sh
+      - docker exec -it {{.NAME}} sh
 
   up:
     desc: docker compose up -d
