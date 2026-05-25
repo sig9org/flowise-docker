@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+vars:
+  NAME: "flowise"
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  build:
+    aliases: [b]
+    desc: Build and export to the registry
+    cmds:
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.PROJECT_NAME}}:latest .
+
+  list-tags:
+    aliases: [l]
+    desc: List the tags registered on Docker Hub
+    cmds:
+      - skopeo list-tags docker://docker.io/sig9/{{.PROJECT_NAME}} | jq -r '.Tags[]' | sort -V
+
+  # Common Docker Operations
+
+  down:
+    desc: docker compose down
+    cmds:
+      - docker compose down
+
+  images:
+    desc: docker compose images
+    cmds:
+      - docker compose images
+
+  logs:
+    desc: docker compose logs -f
+    cmds:
+      - docker compose logs -f
+
+  ps:
+    desc: docker compose ps -a
+    cmds:
+      - docker compose ps -a
+
+  shell:
+    desc: docker exec -it {{.PROJECT_NAME}} sh
+    cmds:
+      - docker exec -it {{.PROJECT_NAME}} sh
+
+  up:
+    desc: docker compose up -d
+    cmds:
+      - docker compose up -d
+
+  upgrade:
+    desc: docker compose down/pull/up
+    cmds:
+      - docker compose down
+      - docker compose pull
+      - docker compose up -d

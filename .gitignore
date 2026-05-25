@@ -1,0 +1,80 @@
+# ==========================================
+# Docker関連 (Docker Basics)
+# ==========================================
+# ローカルの開発環境用データディレクトリ（DBのデータなどが入る場合）
+.docker/
+data/
+db_data/
+postgres_data/
+mysql_data/
+
+# Dockerのログファイル
+*.log
+docker-compose.override.yml.ローカル用ファイルがある場合など
+
+# ==========================================
+# 秘密情報・環境変数 (Credentials & Environment Variables)
+# ==========================================
+# 最も重要：環境変数の本番設定ファイルは絶対にコミットしない
+.env
+.env.local
+.env.production
+.env.*.local
+
+# 例外として、チーム共有用のテンプレートファイルはコミットしてOK
+!.env.example
+
+# クレデンシャルキーや秘密鍵
+*.pem
+*.key
+.secret*
+
+# ==========================================
+# エディタ・OS固有のファイル (IDE & OS Specific)
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# ==========================================
+# 言語・フレームワーク別（必要に応じて有効化）
+# ==========================================
+
+# --- Node.js ---
+# Dockerコンテナ内でnpm installするため、ローカルのものは除外
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# --- Python ---
+# コンテナとホストで競合を防ぐため、キャッシュや仮想環境を除外
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+.pytest_cache/
+
+# --- PHP (Composer / Laravel) ---
+vendor/
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+
+# --- Go ---
+# バイナリビルド成果物
+/bin/
+/pkg/
+/out/

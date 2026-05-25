@@ -1,0 +1,17 @@
+services:
+  flowise:
+    image: sig9/flowise:latest
+    container_name: flowise
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - HTTP_SECURITY_CHECK=false
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - PORT=3000
+    volumes:
+      - flowise_data:/root/.flowise
+
+volumes:
+  flowise_data:
+    driver: local
