@@ -27,9 +27,11 @@ WORKDIR /usr/src/flowise
 # Clone the official Flowise repository at the specific version tag (flowise@3.1.2)
 RUN git clone --depth 1 --branch flowise@3.1.2 https://github.com/FlowiseAI/Flowise.git .
 
-# Install dependencies and build (excluding sdk packages not needed for Docker)
-RUN pnpm install && \
-    pnpm build:docker
+# Allow third-party build scripts so essential packages (like canvas, sharp) can compile
+# Use "pnpm build" instead of the deprecated "pnpm build:docker"
+RUN pnpm config set allow-scripts true && \
+    pnpm install && \
+    pnpm build
 
 # Remove development dependencies to reduce image size
 RUN pnpm prune --prod
@@ -40,7 +42,7 @@ RUN pnpm prune --prod
 # ===================================================
 FROM node:20-alpine AS runner
 
-# Install minimal runtime dependencies needed for execution (git is not needed here)
+# Install minimal runtime dependencies needed for execution
 RUN apk update && \
     apk add --no-cache \
         libc6-compat \
@@ -64,7 +66,7 @@ COPY --from=builder /usr/src/flowise ./
 # Give the node user ownership of the application files
 RUN chown -R node:node .
 
-# Switch to non-root user (node user already exists in node:22-alpine)
+# Switch to non-root user (node user already exists in node:20-alpine)
 USER node
 
 EXPOSE 3000
