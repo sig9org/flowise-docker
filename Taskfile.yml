@@ -17,12 +17,6 @@ tasks:
     cmds:
       - time docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:latest --tag sig9/{{.NAME}}:{{.VERSION}} .
 
-  list-tags:
-    aliases: [l]
-    desc: List the tags registered on Docker Hub
-    cmds:
-      - skopeo list-tags docker://docker.io/sig9/{{.NAME}} | jq -r '.Tags[]' | sort -V
-
   # Common Docker Operations
 
   down:
@@ -49,6 +43,11 @@ tasks:
     desc: docker exec -it {{.NAME}} sh
     cmds:
       - docker exec -it {{.NAME}} sh
+
+  tags:
+    desc: List the tags registered on Docker Hub
+    cmds:
+      - skopeo list-tags docker://docker.io/sig9/{{.NAME}} | jq -r '.Tags[]' | sort -V
 
   up:
     desc: docker compose up -d
