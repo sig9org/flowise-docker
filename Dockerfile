@@ -35,7 +35,7 @@ RUN pnpm config set allow-scripts true && \
     pnpm install && \
     pnpm build
 
-# Add "--ignore-scripts" to prevent husky from triggering after it has been pruned
+# Remove development dependencies to reduce image size
 RUN pnpm prune --prod --ignore-scripts
 
 
@@ -73,4 +73,5 @@ USER node
 
 EXPOSE 3000
 
-CMD [ "pnpm", "start" ]
+# FIX: Directly run the core flowise package start command to bypass 'run-script-os'
+CMD [ "pnpm", "--filter", "flowise", "start" ]
